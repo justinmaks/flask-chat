@@ -22,3 +22,4 @@ TODO:
 - error handling: Handle potential errors such as database errors, connection issues, or application errors to give users more friendly feedback
 - implement logging
 - consider prod deployment configuration (debug=True) and others... 
+- add admin panel for db/messages/etc
