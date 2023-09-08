@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoutbox</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Optional if you have CSS -->
+</head>
+<body>
+
+<h2>Welcome to the Shoutbox</h2>
+
+{% if current_user.is_authenticated %}
+    <p>Welcome, {{ current_user.username }}!</p>
+    <form action="/" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> 
+        <textarea name="message" rows="4" cols="50" placeholder="Type your message here..." required></textarea>
+        <br>
+        <button type="submit">Post Message</button>
+    </form>
+    <a href="/logout">Logout</a>
+{% else %}
+    <p>Please <a href="/login">login</a> to post a message.</p>
+{% endif %}
+
+<h3>Messages:</h3>
+<ul>
+    {% for message in messages %}
+        <li><strong>{{ message.author.username }}</strong>: {{ message.content }} <small>{{ message.timestamp }}</small></li>
+    {% endfor %}
+</ul>
+    
+
+
+</body>
+</html>
