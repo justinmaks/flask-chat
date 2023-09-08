@@ -37,7 +37,7 @@ def load_user(user_id):
 
 @app.after_request
 def secure_headers(response):
-    response.headers["Content-Security-Policy"] = "default-src 'self'; style-src 'self' 'unsafe-inline'"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com"
     return response
 
 
