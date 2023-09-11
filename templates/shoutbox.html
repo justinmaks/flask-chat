@@ -5,9 +5,16 @@
 
 {% if current_user.is_authenticated %}
     <p>Welcome, {{ current_user.username }}!</p>
+    
+    <!-- Use Flask-WTF's form handling capabilities -->
     <form action="/" method="post">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> 
-        <textarea name="message" rows="4" cols="50" placeholder="Type your message here..." required></textarea>
+        {{ form.hidden_tag() }} <!-- This includes the CSRF token automatically -->
+        
+        <!-- Render the message field using Flask-WTF -->
+        <div>
+            {{ form.message.label }}<br>
+            {{ form.message(rows="4", cols="50", placeholder="Type your message here...") }}
+        </div>
         <br>
         <button type="submit">Post Message</button>
     </form>
