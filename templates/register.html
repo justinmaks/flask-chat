@@ -4,6 +4,17 @@
 
 <h2>Register</h2>
 
+<!-- Display flashed messages here -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
 <form action="/register" method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> 
     <div>
