@@ -6,6 +6,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import CSRFProtect
 from flask_limiter import Limiter
 from forms import RegisterForm, LoginForm, ShoutboxForm
+import logging
+from logging.handlers import RotatingFileHandler
+
 
 app = Flask(__name__)
 app.config.update(
@@ -13,6 +16,20 @@ app.config.update(
     SQLALCHEMY_DATABASE_URI='sqlite:///database.db',
     SQLALCHEMY_TRACK_MODIFICATIONS=False  # Suppress the modification tracking warning
 )
+
+if not app.debug:
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    file_handler = RotatingFileHandler('logs/flask-chat.log', maxBytes=10240, backupCount=3)
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('Flask-Chat startup')
+
 
 csrf = CSRFProtect(app)
 
@@ -59,10 +76,12 @@ def secure_headers(response):
 
 @app.errorhandler(404)
 def page_not_found(e):
+    app.logger.warning(f"404 error encountered. Request path: {request.path}")
     return render_template('404.html'), 404
 
 @app.errorhandler(429)
 def ratelimit_error(e):
+    app.logger.warning(f"Rate limit exceeded by user: {current_user.username if current_user.is_authenticated else 'Anonymous'}")
     return render_template('429.html'), 429
 
 
@@ -77,12 +96,16 @@ def register():
         
         if existing_user:
             flash('Username is taken.', 'danger')
+            app.logger.warning(f"Attempted registration with taken username: {form.username.data}")
             return redirect(url_for('register'))
 
         hashed_password = generate_password_hash(form.password.data, method='sha256')
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+
+        app.logger.info(f"New user registered: {form.username.data}")
+
         flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('shoutbox'))
     else:
@@ -103,12 +126,15 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):  # Use form.password.data
                 login_user(user)
+                app.logger.info(f"Successful login for user: {form.username.data}")
                 # flash('Login successful.', 'success')
                 return redirect(url_for('shoutbox'))
             else:
                 flash('Incorrect password. Please try again.', 'danger')  # 'danger' is for Bootstrap error messages
+                app.logger.warning(f"Failed login attempt due to incorrect password for user: {form.username.data}")
         else:
             flash('User does not exist. Please check your username or register.', 'danger')
+            app.logger.warning(f"Failed login attempt for non-existent user: {form.username.data}")
     return render_template('login.html', form=form)  # Pass the form to the template
 
 
@@ -116,6 +142,7 @@ def login():
 @login_required
 def logout():
     logout_user()
+    app.logger.info(f"User {current_user.username} logged out.")
     return redirect(url_for('shoutbox'))
 
 
@@ -129,6 +156,9 @@ def shoutbox():
         new_message = Message(content=form.message.data, user_id=current_user.id)
         db.session.add(new_message)
         db.session.commit()
+
+        app.logger.info(f"User {current_user.username} posted a new message.")
+
         return redirect(url_for('shoutbox'))
     messages = Message.query.order_by(Message.id.desc()).all()
 
