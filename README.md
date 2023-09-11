@@ -131,4 +131,7 @@ sudo ln -s /etc/nginx/sites-available/flask-chat /etc/nginx/sites-enabled
  make sure gunicorn is installed GLOBALLY
 
 
- run it: nohup gunicorn app:app &
+ run it: 
+ ```bash
+ nohup gunicorn app:app &
+ ```
