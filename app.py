@@ -20,7 +20,7 @@ login_manager.login_view = 'login'
 
 limiter = Limiter(
     app=app,
-    key_func=lambda: request.remote_addr, 
+    key_func=lambda: current_user.id if current_user.is_authenticated else request.remote_addr,
     default_limits=["100 per day", "25 per hour"]
 )
 
@@ -52,6 +52,11 @@ def secure_headers(response):
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+@app.errorhandler(429)
+def ratelimit_error(e):
+    return render_template('429.html'), 429
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -104,6 +109,7 @@ def logout():
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
+@limiter.limit("60 per hour") 
 def shoutbox():
     form = ShoutboxForm()
 
