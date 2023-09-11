@@ -47,9 +47,12 @@ Ensure you have the following installed on your local machine:
       source env/bin/activate
       ```
 
-5. Install required packages:
+5. Install required packages, set env vars:
     ```bash
     pip install -r requirements.txt
+    export SECRET_KEY=<yourSecretKey>
+    check if debug=True should be set.
+
     ```
 
 6. Init the dev db (if running for the first time):

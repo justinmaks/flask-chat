@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -8,7 +9,7 @@ from forms import RegisterForm, LoginForm, ShoutboxForm
 
 app = Flask(__name__)
 app.config.update(
-    SECRET_KEY='supersecretkey', # put in env var in prod/update
+    SECRET_KEY=os.environ.get('SECRET_KEY'),
     SQLALCHEMY_DATABASE_URI='sqlite:///database.db',
     SQLALCHEMY_TRACK_MODIFICATIONS=False  # Suppress the modification tracking warning
 )
@@ -136,4 +137,4 @@ def shoutbox():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
