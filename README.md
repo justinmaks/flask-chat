@@ -93,11 +93,11 @@ Project Link: [https://github.com/justinmaks/flask-chat](https://github.com/just
 
 TODO:
 
+- password minimums
 - html containers 
 - input sanitization/maybe flask-wtf does this
 - http security headers: Use Flask-Talisman or similar libraries to set security headers like HSTS, X-Frame-Options, etc.
 - implement logging
-- consider prod deployment configuration (debug=True) and others... 
 - add admin panel for db/messages/etc
 - dockerize
 - sockets? 
