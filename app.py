@@ -57,6 +57,12 @@ def page_not_found(e):
 @limiter.limit("8 per hour")
 def register():
     if request.method == 'POST':
+
+        existing_user = User.query.filter_by(username=request.form['username']).first()
+        if existing_user:
+            flash('Username is taken.', 'danger')
+            return redirect(url_for('register'))
+
         hashed_password = generate_password_hash(request.form['password'], method='sha256')
         new_user = User(username=request.form['username'], password=hashed_password)
         db.session.add(new_user)
