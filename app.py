@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import CSRFProtect
+from flask_limiter import Limiter
 
 app = Flask(__name__)
 app.config.update(
@@ -15,6 +16,12 @@ csrf = CSRFProtect(app)
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+limiter = Limiter(
+    app=app,
+    key_func=lambda: request.remote_addr, 
+    default_limits=["100 per day", "25 per hour"]
+)
 
 
 class User(UserMixin, db.Model):
@@ -47,6 +54,7 @@ def page_not_found(e):
 
 
 @app.route('/register', methods=['GET', 'POST'])
+@limiter.limit("8 per hour")
 def register():
     if request.method == 'POST':
         hashed_password = generate_password_hash(request.form['password'], method='sha256')
@@ -58,12 +66,18 @@ def register():
 
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit("15 per hour")
 def login():
     if request.method == 'POST':
         user = User.query.filter_by(username=request.form['username']).first()
-        if user and check_password_hash(user.password, request.form['password']):
-            login_user(user)
-            return redirect(url_for('shoutbox'))
+        if user:
+            if check_password_hash(user.password, request.form['password']):
+                login_user(user)
+                return redirect(url_for('shoutbox'))
+            else:
+                flash('Incorrect password. Please try again.', 'danger')  # 'danger' is for Bootstrap error messages
+        else:
+            flash('User does not exist. Please check your username or register.', 'danger')
     return render_template('login.html')
 
 
