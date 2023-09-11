@@ -1,11 +1,11 @@
 body {
-    background-color: #f0f2f5; /* Light background */
+    background-color: #f4f4f4; /* grey background */
     font-family: 'Arial', sans-serif; /* Choose a soft and modern font */
 }
 
 .container {
     max-width: 600px;
-    background-color: #ffffff; /* White container */
+    background-color: #f4f4f4; /* grey container */
     border-radius: 20px; /* Rounded corners */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     padding: 20px;
