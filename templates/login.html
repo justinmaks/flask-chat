@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h2>Login</h2>
 
 <!-- Display flashed messages here -->
@@ -15,14 +16,14 @@
 {% endwith %}
 
 <form action="/login" method="post">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"> 
+    {{ form.hidden_tag() }} <!-- Generates a hidden field that includes a CSRF token -->
     <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        {{ form.username.label }} <!-- Renders the label for the username field -->
+        {{ form.username(size=32) }} <!-- Renders the username input field -->
     </div>
     <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        {{ form.password.label }} <!-- Renders the label for the password field -->
+        {{ form.password(size=32) }} <!-- Renders the password input field -->
     </div>
     <div>
         <button type="submit">Login</button>
