@@ -86,9 +86,7 @@ Project Link: [https://github.com/justinmaks/flask-chat](https://github.com/just
 TODO:
 
 - input sanitization/maybe flask-wtf does this
-- notifications for successful registration/login
 - http security headers: Use Flask-Talisman or similar libraries to set security headers like HSTS, X-Frame-Options, etc.
-- error handling: Handle potential errors such as database errors, connection issues, or application errors to give users more friendly feedback
 - implement logging
 - consider prod deployment configuration (debug=True) and others... 
 - add admin panel for db/messages/etc

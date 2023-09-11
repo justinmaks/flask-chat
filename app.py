@@ -75,6 +75,7 @@ def register():
         new_user = User(username=form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+        flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('shoutbox'))
     else:
         print('Error: ', form.errors)
@@ -92,6 +93,7 @@ def login():
         if user:
             if check_password_hash(user.password, form.password.data):  # Use form.password.data
                 login_user(user)
+                # flash('Login successful.', 'success')
                 return redirect(url_for('shoutbox'))
             else:
                 flash('Incorrect password. Please try again.', 'danger')  # 'danger' is for Bootstrap error messages
