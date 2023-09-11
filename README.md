@@ -8,7 +8,7 @@ A simple chat application built with Flask.
 - Chat "shoutbox" where authenticated users can post messages
 - SQLite backend for user and message data storage
 - Rate limiting
-- CSRF protection
+- CSRF protection using Flask-WTF
 
 ## Getting Started
 
@@ -52,7 +52,12 @@ Ensure you have the following installed on your local machine:
     pip install -r requirements.txt
     ```
 
-6. Run the application:
+6. Init the dev db (if running for the first time):
+    ```bash
+    python init_db.py
+    ```
+
+7. Run the application:
     ```bash
     python app.py
     ```
