@@ -101,3 +101,34 @@ TODO:
 - add admin panel for db/messages/etc
 - dockerize
 - sockets? 
+
+
+## prod deploy 
+
+###
+
+Install and enable nginx
+
+sudo nano /etc/nginx/sites-available/flask-chat
+sudo ln -s /etc/nginx/sites-available/flask-chat /etc/nginx/sites-enabled
+
+
+ ```bash
+ server {
+    listen 80;
+    server_name your_domain_or_ip;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+ ```
+
+ make sure gunicorn is installed GLOBALLY
+
+
+ run it: nohup gunicorn app:app &
