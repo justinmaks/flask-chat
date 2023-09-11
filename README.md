@@ -68,7 +68,7 @@ Visit `http://127.0.0.1:5000` in your browser to access the application.
 ## Security
 
 - Passwords are securely hashed.
-- Rate limiting has been implemented to prevent brute-force attacks on the login page.
+- Rate limiting on login, registration and posts.
 - The application has CSRF protection for forms.
 
 ## Contributing
