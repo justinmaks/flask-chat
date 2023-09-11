@@ -84,8 +84,8 @@ Project Link: [https://github.com/justinmaks/flask-chat](https://github.com/just
 
 
 TODO:
+- add error handle for existing user registration
 
-- add base.html with modern theme and modify templates to utilize and extend it
 - http security headers: Use Flask-Talisman or similar libraries to set security headers like HSTS, X-Frame-Options, etc.
 - error handling: Handle potential errors such as database errors, connection issues, or application errors to give users more friendly feedback
 - implement logging

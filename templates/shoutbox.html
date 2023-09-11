@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoutbox</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> 
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css" /> -->
-</head>
-<body>
+{% extends "base.html" %}
 
+{% block content %}
 <h2>Welcome to the Shoutbox</h2>
 
 {% if current_user.is_authenticated %}
@@ -30,8 +22,5 @@
         <li><strong>{{ message.author.username }}</strong>: {{ message.content }} <small>{{ message.timestamp }}</small></li>
     {% endfor %}
 </ul>
-    
 
-
-</body>
-</html>
+{% endblock %}
