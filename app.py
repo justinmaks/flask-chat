@@ -14,9 +14,13 @@ app.config.update(
 )
 
 csrf = CSRFProtect(app)
+
 db = SQLAlchemy(app)
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+login_manager.session_protection = "strong" #This tells Flask-Login to use strong session protection. When this protection level is set, Flask-Login will monitor the client's IP address and user agent. If either changes, it will log the user out.
 
 limiter = Limiter(
     app=app,
@@ -30,6 +34,9 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
     messages = db.relationship('Message', backref='author', lazy=True)
+    # last_ip_address = db.Column(db.String(45))  # storing IP addresses (IPv4 and IPv6)
+    # last_user_agent = db.Column(db.String(500)) # storing user agent strings
+
 
 
 class Message(db.Model):
@@ -78,7 +85,9 @@ def register():
         flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('shoutbox'))
     else:
-        print('Error: ', form.errors)
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(error, 'danger')
 
     return render_template('register.html', form=form)
 
