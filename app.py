@@ -115,13 +115,7 @@ def shoutbox():
     messages = Message.query.order_by(Message.id.desc()).all()
 
     return render_template('shoutbox.html', messages=messages, form=form)
-    # if request.method == 'POST':
-    #     new_message = Message(content=request.form['message'], user_id=current_user.id)
-    #     db.session.add(new_message)
-    #     db.session.commit()
-    #     return redirect(url_for('shoutbox'))
-    # messages = Message.query.order_by(Message.id.desc()).all()
-    # return render_template('shoutbox.html', messages=messages)
+
 
 
 if __name__ == "__main__":
