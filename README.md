@@ -1,4 +1,4 @@
-# Flask Chat App
+# Flask-Chat 
 
 A simple chat application built with Flask.
 
@@ -7,7 +7,7 @@ A simple chat application built with Flask.
 - User registration and authentication
 - Chat "shoutbox" where authenticated users can post messages
 - SQLite backend for user and message data storage
-- Rate limiting for enhanced security
+- Rate limiting
 - CSRF protection
 
 ## Getting Started
@@ -92,3 +92,4 @@ TODO:
 - consider prod deployment configuration (debug=True) and others... 
 - add admin panel for db/messages/etc
 - dockerize
+- sockets? 
