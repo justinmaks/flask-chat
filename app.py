@@ -38,7 +38,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-login_manager.session_protection = "strong" #This tells Flask-Login to use strong session protection. When this protection level is set, Flask-Login will monitor the client's IP address and user agent. If either changes, it will log the user out.
+#login_manager.session_protection = "strong" #This tells Flask-Login to use strong session protection. When this protection level is set, Flask-Login will monitor the client's IP address and user agent. If either changes, it will log the user out.
 
 limiter = Limiter(
     app=app,
@@ -141,8 +141,9 @@ def login():
 @app.route('/logout')
 @login_required
 def logout():
+    user_name = current_user.username
     logout_user()
-    app.logger.info(f"User {current_user.username} logged out.")
+    app.logger.info(f"User {user_name} logged out.")
     return redirect(url_for('shoutbox'))
 
 

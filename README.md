@@ -90,19 +90,6 @@ tellhesser33@protonmail.com
 Project Link: [https://github.com/justinmaks/flask-chat](https://github.com/justinmaks/flask-chat)
 
 
-
-TODO:
-
-- password minimums
-- html containers 
-- input sanitization/maybe flask-wtf does this
-- http security headers: Use Flask-Talisman or similar libraries to set security headers like HSTS, X-Frame-Options, etc.
-- implement logging
-- add admin panel for db/messages/etc
-- dockerize
-- sockets? 
-
-
 ## prod deploy 
 
 ###
@@ -135,3 +122,16 @@ sudo ln -s /etc/nginx/sites-available/flask-chat /etc/nginx/sites-enabled
  ```bash
  nohup gunicorn app:app &
  ```
+
+
+ TODO:
+
+- rooms for diff topicss
+- password minimums
+- html containers 
+- input sanitization/maybe flask-wtf does this
+- http security headers: Use Flask-Talisman or similar libraries to set security headers like HSTS, X-Frame-Options, etc.
+- implement logging
+- add admin panel for db/messages/etc
+- dockerize
+- sockets? 
