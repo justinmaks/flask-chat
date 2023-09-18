@@ -34,6 +34,7 @@ if not app.debug:
 csrf = CSRFProtect(app)
 
 db = SQLAlchemy(app)
+ 
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
