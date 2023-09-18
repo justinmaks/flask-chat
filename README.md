@@ -124,6 +124,45 @@ sudo ln -s /etc/nginx/sites-available/flask-chat /etc/nginx/sites-enabled
  ```
 
 
+
+
+ ## Testing
+
+
+This section provides instructions on how to run tests for the Flask Chat application.
+
+### Setup
+
+- Make sure you have the required libraries installed. They can typically be installed via `pip`:
+
+  ```bash
+  pip install flask unittest werkzeug
+  ```
+
+### Run tests
+
+1. Navigate to the Project Directory:
+    - Open your terminal and change your directory to the root of the Flask Chat application.
+2. Set up the Environment:
+    - It's recommended to run tests in a virtual environment to ensure dependencies don't clash. If you're not using one already:
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+    ```
+3. Run the Tests:
+    ```bash
+    python tests.py
+    ```
+
+#### Notes
+
+- Tests will create a temporary SQLite database named test.db in the root directory. This database is for testing purposes and will be recreated each time the tests are run.
+
+- Remember to always deactivate your virtual environment once you're done
+```bash
+deactivate
+```
+
  TODO:
 
 - rooms for diff topicss
